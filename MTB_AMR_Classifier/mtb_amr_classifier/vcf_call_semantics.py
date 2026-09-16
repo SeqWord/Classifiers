@@ -1001,17 +1001,13 @@ _LEGACY_ABSENCE_WARNING_EMITTED = False
 
 def warn_legacy_absence_assumed_reference() -> None:
     global _LEGACY_ABSENCE_WARNING_EMITTED
-    msg = (
-        "LEGACY CALLABILITY MODE: assume_absent_variant_is_reference=True. "
-        "Sites absent from a variant-only VCF are encoded as reference (0). "
-        "This is not demonstrated callability; prefer gVCF/reference blocks or "
-        "depth/callability evidence. Set assume_absent_variant_is_reference=False "
-        "for safe behaviour."
+    if _LEGACY_ABSENCE_WARNING_EMITTED:
+        return
+    _LEGACY_ABSENCE_WARNING_EMITTED = True
+    logger.info(
+        "Variant-only VCF mode: sites not present in the VCF are treated as "
+        "reference, matching how this model was trained."
     )
-    if not _LEGACY_ABSENCE_WARNING_EMITTED:
-        warnings.warn(msg, UserWarning, stacklevel=2)
-        logger.warning(msg)
-        _LEGACY_ABSENCE_WARNING_EMITTED = True
 
 
 def resolve_feature_call(

@@ -30,3 +30,10 @@ class TestDefaultVcfQuerySettings(unittest.TestCase):
         apply_trained_vcf_config(config, registry)
         self.assertEqual(config.min_gq_per_sample, 0)
         self.assertTrue(config.assume_absent_variant_is_reference)
+
+    def test_ploidy_list_matches_tuple(self):
+        config = NetworkParserConfig()
+        config.vcf_supported_ploidies = (1, 2)
+        registry = {"config": {"vcf_supported_ploidies": [1, 2]}}
+        apply_trained_vcf_config(config, registry)
+        self.assertEqual(list(config.vcf_supported_ploidies), [1, 2])
