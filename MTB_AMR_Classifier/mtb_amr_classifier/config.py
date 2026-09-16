@@ -31,7 +31,8 @@ class NetworkParserConfig:
     # -------------------------------------------------
     qual_threshold: float = 30.0
     min_dp_per_sample: int = 10
-    min_gq_per_sample: int = 20
+    # AFRO / bcftools variant-only VCFs usually have no GQ field.
+    min_gq_per_sample: int = 0
     mq_threshold: float = 40.0
     mq0f_threshold: float = 0.1
     biallelic_only: bool = True
@@ -41,9 +42,9 @@ class NetworkParserConfig:
     # Respect VCF FILTER column (PASS / . allowed by default).
     vcf_respect_filter: bool = True
     vcf_allowed_filters: str = "PASS,."
-    # Safe default: sites absent from a variant-only VCF are NOT treated as REF.
-    # Set True only for legacy single-sample variant-only cohorts; emits a warning.
-    assume_absent_variant_is_reference: bool = False
+    # The bundled AFRO-TB model was trained on variant-only VCFs (bcftools -v).
+    # Sites absent from those files are treated as callable reference.
+    assume_absent_variant_is_reference: bool = True
     # Expand / resolve gVCF reference blocks (END) as callable reference.
     expand_gvcf_ref_blocks: bool = True
     # Optional REF-allele check against the loaded reference genome.

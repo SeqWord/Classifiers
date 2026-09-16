@@ -1,0 +1,2 @@
+[console_scripts]
+mtb-amr-classifier = mtb_amr_classifier.cli:main
