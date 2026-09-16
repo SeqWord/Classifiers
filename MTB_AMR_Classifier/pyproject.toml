@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mtb-amr-classifier"
+version = "0.1.0"
+description = "Predict MTB hierarchy paths from a trained NetworkParser model using FASTQ, FASTA, or VCF samples."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Nomlie Mfuphi" }]
+dependencies = [
+  "numpy",
+  "pandas",
+  "scikit-learn",
+  "scipy",
+  "statsmodels",
+  "joblib",
+  "biopython",
+]
+
+[project.scripts]
+mtb-amr-classifier = "mtb_amr_classifier.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["mtb_amr_classifier*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

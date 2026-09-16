@@ -1,0 +1,16 @@
+{
+  "H37Rv.fasta": {
+    "bytes": 4558636,
+    "sha256": "264e74883b73871cb469a0f6ec06a738540805c098997e78a792db4374293046",
+    "description": "Mycobacterium tuberculosis H37Rv reference used by NetworkParser demo and AFRO VCF coordinate system",
+    "contig_expected_in_AFRO_VCFs": "M.tuberculosis_H37Rv",
+    "sequence_accessions_note": "AL123456.3 / NC_000962.3 sequences are commonly treated as identical for this reference; annotation ID follows the GenBank file"
+  },
+  "H37Rv.gbk": {
+    "bytes": 14099860,
+    "sha256": "fa061da679b57009801408f891cb523212ad82c6c89341e3cbd1e30dc312ae74",
+    "description": "Mycobacterium tuberculosis H37Rv reference used by NetworkParser demo and AFRO VCF coordinate system",
+    "contig_expected_in_AFRO_VCFs": "M.tuberculosis_H37Rv",
+    "sequence_accessions_note": "AL123456.3 / NC_000962.3 sequences are commonly treated as identical for this reference; annotation ID follows the GenBank file"
+  }
+}

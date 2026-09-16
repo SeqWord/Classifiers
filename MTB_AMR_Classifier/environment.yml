@@ -1,0 +1,33 @@
+name: mtb_amr_classifier
+
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  - python=3.10
+  - pip
+  - black
+  - flake8
+  - mypy
+  - pytest
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - statsmodels
+  - pyyaml
+  - networkx
+  - joblib
+  - tqdm
+  - matplotlib
+  - biopython
+  - bcftools
+  - htslib
+  - tabix
+  - bwa
+  - samtools
+  - blast
+  - pip:
+      []
