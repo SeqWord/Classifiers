@@ -35,6 +35,12 @@ def configure_logging(verbose: bool = False, quiet: bool = False) -> None:
         level=level,
         format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
     )
+    try:
+        from mtb_amr_classifier.pickle_compat import silence_expected_runtime_warnings
+    except ImportError:  # pragma: no cover
+        from pickle_compat import silence_expected_runtime_warnings  # type: ignore
+
+    silence_expected_runtime_warnings()
 
 
 def _set_if_provided(config: Any, key: str, value: Any) -> None:
