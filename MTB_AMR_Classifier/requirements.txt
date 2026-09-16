@@ -1,0 +1,9 @@
+# Python deps for VCF / FASTA / matrix prediction.
+# FASTQ alignment tools (bwa, samtools, bcftools) are not installed here.
+numpy
+pandas
+scikit-learn>=1.3,<1.6
+scipy
+joblib
+biopython
+tqdm

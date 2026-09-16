@@ -1,3 +1,18 @@
+Metadata-Version: 2.4
+Name: mtb-amr-classifier
+Version: 0.1.0
+Summary: Predict MTB hierarchy paths from a trained NetworkParser model using FASTQ, FASTA, or VCF samples.
+Author: Nomlie Mfuphi
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scikit-learn<1.6,>=1.3
+Requires-Dist: scipy
+Requires-Dist: joblib
+Requires-Dist: biopython
+Requires-Dist: tqdm
+
 # MTB_AMR_Classifier
 
 Predict the **hierarchy path** of a *Mycobacterium tuberculosis* sample from a trained [NetworkParser](https://github.com/Nomlie/network_parser) model.
@@ -81,11 +96,6 @@ python -m mtb_amr_classifier predict \
   --ref_fasta data/reference/H37Rv.fasta \
   --output_dir results/example
 ```
-
-The example VCFs are variant-only (no gVCF REF blocks, no `GQ` field). The
-classifier applies the trained-model settings automatically: missing sites
-are treated as reference, and GQ is not required. `config/vcf_query.json`
-records those settings if you need to pass `--config` explicitly.
 
 `--sample input` treats the whole directory as VCF input. To run one sample:
 

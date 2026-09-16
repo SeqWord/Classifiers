@@ -166,6 +166,54 @@ def load_config(config_path: Optional[str]) -> NetworkParserConfig:
     return config
 
 
+TRAINED_VCF_CONFIG_KEYS = (
+    "qual_threshold",
+    "min_dp_per_sample",
+    "min_gq_per_sample",
+    "mq_threshold",
+    "mq0f_threshold",
+    "biallelic_only",
+    "vcf_supported_ploidies",
+    "vcf_respect_filter",
+    "vcf_allowed_filters",
+    "assume_absent_variant_is_reference",
+    "expand_gvcf_ref_blocks",
+    "validate_ref_against_genome",
+    "min_feature_recovery_fraction",
+    "min_callable_fraction",
+    "enforce_query_callability_gates",
+    "contig_alias_map",
+    "allow_position_only_vcf_match",
+    "ancestral_allele",
+)
+
+
+def apply_trained_vcf_config(
+    config: NetworkParserConfig, registry: Dict[str, Any]
+) -> NetworkParserConfig:
+    """Copy VCF encoding settings saved with the trained model.
+
+    Variant-only AFRO VCFs were trained with min_gq=0 and absent-site = REF.
+    Querying without those settings marks every sample as uncallable.
+    """
+    saved = registry.get("config") if isinstance(registry, dict) else None
+    if not isinstance(saved, dict):
+        return config
+    applied: List[str] = []
+    for key in TRAINED_VCF_CONFIG_KEYS:
+        if key not in saved or not hasattr(config, key):
+            continue
+        value = saved[key]
+        if getattr(config, key) != value:
+            setattr(config, key, value)
+            applied.append(f"{key}={value!r}")
+    if applied:
+        logger.info("Using trained-model VCF settings: %s", ", ".join(applied))
+    if hasattr(config, "__post_init__"):
+        config.__post_init__()
+    return config
+
+
 def resolve_path(path_value: Optional[str], base_dir: Path) -> Optional[Path]:
     if not path_value:
         return None
@@ -193,6 +241,14 @@ def load_pickle(path: Path) -> Any:
     if not path.exists():
         raise FileNotFoundError(f"Model payload not found: {path}")
 
+    try:
+        from mtb_amr_classifier.pickle_compat import (
+            install_network_parser_pickle_aliases,
+        )
+    except ImportError:  # pragma: no cover
+        from pickle_compat import install_network_parser_pickle_aliases  # type: ignore
+
+    install_network_parser_pickle_aliases()
     try:
         import joblib
 
@@ -2457,7 +2513,7 @@ class NetworkParserQueryEngine:
             raise FileNotFoundError(f"Model registry not found: {self.registry_path}")
         self.registry_base = self.registry_path.parent
         self.registry = load_json(self.registry_path)
-        self.config = config
+        self.config = apply_trained_vcf_config(config, self.registry)
         self._init_query_caches()
 
     def _load_hierarchy_node_payload(

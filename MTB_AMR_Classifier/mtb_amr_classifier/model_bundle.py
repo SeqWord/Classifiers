@@ -58,6 +58,7 @@ try:
     from mtb_amr_classifier.config import NetworkParserConfig
     from mtb_amr_classifier.query_engine import (
         NetworkParserQueryEngine,
+        apply_trained_vcf_config,
         extract_model_importance,
         read_ranked_feature_table,
     )
@@ -65,6 +66,7 @@ except Exception:  # pragma: no cover - supports direct source-tree execution
     from config import NetworkParserConfig  # type: ignore
     from query_engine import (  # type: ignore
         NetworkParserQueryEngine,
+        apply_trained_vcf_config,
         extract_model_importance,
         read_ranked_feature_table,
     )
@@ -235,6 +237,14 @@ def _load_pickle_or_joblib(path: Path) -> Any:
         raise FileNotFoundError(f"Model payload not found: {path}")
 
     try:
+        from mtb_amr_classifier.pickle_compat import (
+            install_network_parser_pickle_aliases,
+        )
+    except ImportError:  # pragma: no cover
+        from pickle_compat import install_network_parser_pickle_aliases  # type: ignore
+
+    install_network_parser_pickle_aliases()
+    try:
         import joblib  # type: ignore
 
         loaded = joblib.load(path)
@@ -246,6 +256,14 @@ def _load_pickle_or_joblib(path: Path) -> Any:
 
 def _load_pickle_or_joblib_bytes(raw: bytes) -> Any:
     """Load a trusted serialized model from its exact embedded file bytes."""
+    try:
+        from mtb_amr_classifier.pickle_compat import (
+            install_network_parser_pickle_aliases,
+        )
+    except ImportError:  # pragma: no cover
+        from pickle_compat import install_network_parser_pickle_aliases  # type: ignore
+
+    install_network_parser_pickle_aliases()
     try:
         import joblib  # type: ignore
 
@@ -1715,7 +1733,7 @@ class BundledNetworkParserQueryEngine(NetworkParserQueryEngine):
         self.registry_path = Path(runtime["registry_path"])
         self.registry_base = Path(runtime["runtime_dir"])
         self.registry = runtime["registry"]
-        self.config = config
+        self.config = apply_trained_vcf_config(config, self.registry)
         self._init_query_caches()
 
     def query(self, *args: Any, **kwargs: Any) -> pd.DataFrame:

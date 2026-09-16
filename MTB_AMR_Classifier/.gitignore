@@ -15,13 +15,14 @@
 *.npb
 
 /results/
+.venv/
 .mypy_cache/
 .pytest_cache/
 __pycache__/
 *.pyc
 .DS_Store
 
-# Keep the bundled example model and VCFs
+# Bundled example
 !model/
 !model/*.npb
 !input/
