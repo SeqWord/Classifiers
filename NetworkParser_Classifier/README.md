@@ -1,4 +1,4 @@
-# MTB_AMR_Classifier
+# networkparser_classifier
 
 Predict the **hierarchy path** of a *Mycobacterium tuberculosis* sample from a trained [NetworkParser](https://github.com/Nomlie/network_parser) model.
 
@@ -31,14 +31,14 @@ The bundled example is VCF-only. Use **pip** (minutes), not the old full Conda
 stack with `bwa` / `blast` / `samtools`.
 
 ```bash
-cd MTB_AMR_Classifier
+cd NetworkParser_classifier
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e .
 ```
 
 `pip install -e .` installs the Python packages in `requirements.txt` and
-makes `python -m mtb_amr_classifier` work without setting `PYTHONPATH`.
+makes `python -m networkparser_classifier` work without setting `PYTHONPATH`.
 
 If you already have numpy, pandas, scikit-learn, scipy, joblib, and biopython
 in a Python 3.10+ environment, skip the venv and just set `PYTHONPATH=.`.
@@ -47,7 +47,7 @@ in a Python 3.10+ environment, skip the venv and just set `PYTHONPATH=.`.
 
 ```bash
 conda env create -f environment.yml
-conda activate mtb_amr_classifier
+conda activate networkparser_classifier
 ```
 
 Use `mamba env create -f environment.yml` if Conda solving is still slow.
@@ -75,7 +75,7 @@ the model predicted correctly (lineage → AMR binary → resistance profile).
 From the repository root:
 
 ```bash
-python -m mtb_amr_classifier predict \
+python -m networkparser_classifier predict \
   --model model/networkparser_model_bundle.npb \
   --sample input \
   --ref_fasta data/reference/H37Rv.fasta \
@@ -90,7 +90,7 @@ records those settings if you need to pass `--config` explicitly.
 `--sample input` treats the whole directory as VCF input. To run one sample:
 
 ```bash
-python -m mtb_amr_classifier predict \
+python -m networkparser_classifier predict \
   --model model/networkparser_model_bundle.npb \
   --sample input/ERR038739.vcf.gz \
   --ref_fasta data/reference/H37Rv.fasta \
@@ -114,7 +114,7 @@ model was trained on). Keep query samples on that coordinate system.
 ## Predict other samples
 
 ```bash
-python -m mtb_amr_classifier predict \
+python -m networkparser_classifier predict \
   --model model/networkparser_model_bundle.npb \
   --sample /path/to/sample.vcf.gz \
   --ref_fasta data/reference/H37Rv.fasta \
@@ -124,7 +124,7 @@ python -m mtb_amr_classifier predict \
 Paired FASTQ directory:
 
 ```bash
-python -m mtb_amr_classifier predict \
+python -m networkparser_classifier predict \
   --model /path/to/networkparser_model_bundle.npb \
   --sample /path/to/fastq_dir \
   --input-type fastq \
@@ -135,7 +135,7 @@ python -m mtb_amr_classifier predict \
 FASTA:
 
 ```bash
-python -m mtb_amr_classifier predict \
+python -m networkparser_classifier predict \
   --model /path/to/networkparser_model_bundle.npb \
   --sample /path/to/sample.fasta \
   --input-type fasta \
@@ -148,13 +148,13 @@ python -m mtb_amr_classifier predict \
 Use `--help` for FASTQ, review-guard, and config options:
 
 ```bash
-python -m mtb_amr_classifier predict --help
+python -m networkparser_classifier predict --help
 ```
 
 ## Python API
 
 ```python
-from mtb_amr_classifier import predict_hierarchy
+from networkparser_classifier import predict_hierarchy
 
 predictions = predict_hierarchy(
     model="model/networkparser_model_bundle.npb",
@@ -184,7 +184,7 @@ Lineage_clean=L4.3.3 / AMR_binary=resistant / Resistance_Profile_Collapsed=HRZE
 
 ## Model source
 
-Train the model with [NetworkParser](https://github.com/Nomlie/network_parser):
+Train the model with [NetworkParser](https://github.com/SeqWord/NetworkParser):
 
 ```bash
 python -m network_parser.cli train-hierarchy \
