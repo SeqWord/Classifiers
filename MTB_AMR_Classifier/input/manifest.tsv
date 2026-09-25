@@ -1,6 +1,0 @@
-sample_id	vcf	true_path	pred_path	full_path_correct
-ERR036226	ERR036226.vcf.gz	lineage 4 | Sensitive | Sensitive	lineage 4 | Sensitive | Sensitive	True
-ERR038739	ERR038739.vcf.gz	lineage 4 | resistant | MDR	lineage 4 | resistant | MDR	True
-ERR108129	ERR108129.vcf.gz	lineage 2 | Sensitive | Sensitive	lineage 2 | Sensitive | Sensitive	True
-ERR1873395	ERR1873395.vcf.gz	lineage 2 | resistant | Pre_XDR	lineage 2 | resistant | Pre_XDR	True
-ERR037491	ERR037491.vcf.gz	lineage 1 | resistant | Mono	lineage 1 | resistant | Mono	True
